@@ -209,3 +209,11 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+#clock {
+  font-size: 1.8rem;
+  color: #7FFF00; 
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(127, 255, 0, 0.8);
+}
