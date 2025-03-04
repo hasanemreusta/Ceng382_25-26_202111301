@@ -1,0 +1,211 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Orbitron', Arial, sans-serif;
+}
+
+
+.splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.splash label {
+  cursor: pointer;
+}
+
+/*  Omnitrix drawing creating by ChatGPT. OpenAI, 1 March 2025 */
+.omnitrix {
+  width: 300px;
+  height: 300px;
+  background-color: #000;
+  border-radius: 50%;
+  position: relative;
+  margin: auto;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,255,0,0.5);
+  animation: omnitrixRotateAnimation 30s linear infinite;
+}
+@keyframes omnitrixRotateAnimation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.omnitrix::before,
+.omnitrix::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  width: 60%;
+  background: #7FFF00;
+  animation: pulse 3s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.omnitrix::before {
+  border-radius: 25%;
+  top: 0;
+  height: 51%;
+  clip-path: polygon(0% 0%, 100% 0%, 70% 100%, 30% 100%);
+}
+.omnitrix::after {
+  border-radius: 25%;
+  bottom: 0;
+  height: 51%;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+}
+
+/* GIF Screen */
+.gif {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+  opacity: 0;
+  visibility: hidden;
+}
+.gif img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+/* Login Screen */
+.login {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.85);
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,255,0,0.6);
+  z-index: 2500;
+  opacity: 0;
+  visibility: hidden;
+  text-align: center;
+}
+
+/* Small Omnitrix Drawing creating by ChatGPT. */
+.omnitrix-small {
+  width: 50px;
+  height: 50px;
+  background-color: #000;
+  border-radius: 50%;
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0,255,0,0.7);
+}
+
+.omnitrix-small::before,
+.omnitrix-small::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  width: 60%;
+  background: #7FFF00;
+  animation: pulseSmall 2s infinite;
+}
+
+@keyframes pulseSmall {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.omnitrix-small::before {
+  border-radius: 25%;
+  top: 0;
+  height: 55%;
+  clip-path: polygon(0% 0%, 100% 0%, 70% 100%, 30% 100%);
+}
+
+.omnitrix-small::after {
+  border-radius: 25%;
+  bottom: 0;
+  height: 51%;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+}
+
+/* Form Elements */
+.login h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+.login form input[type="text"],
+.login form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: #111;
+  border: 1px solid #7FFF00;
+  border-radius: 5px;
+  color: #fff;
+}
+.login form input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #7FFF00;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: box-shadow 0.3s ease;
+}
+.login form input[type="submit"]:hover {
+  animation: buttonGlow 1s infinite alternate;
+}
+@keyframes buttonGlow {
+  from {
+    box-shadow: 0 0 5px rgba(127,255,0,0.7);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(127,255,0,1);
+  }
+}
+
+
+#toggle:checked ~ .splash {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+#toggle:checked ~ .gif {
+  opacity: 1;
+  visibility: visible;
+  animation: playGif 2s forwards;
+}
+@keyframes playGif {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+#toggle:checked ~ .login {
+  visibility: visible;
+  animation: showLogin 1s 3s forwards;
+}
+@keyframes showLogin {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
