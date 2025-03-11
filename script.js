@@ -18,18 +18,18 @@ function updateClock() {
   
   document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.querySelector("form");
-  
+
     loginForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-  
-      const username = document.querySelector('input[type="text"]').value;
-      const password = document.querySelector('input[type="password"]').value;
-  
-      
-      loginData.push({ username, password });
-  
-      
-      console.log("Login Attempts:", loginData);
+        event.preventDefault();
+
+        const username = document.querySelector('input[type="text"]').value;
+        const password = document.querySelector('input[type="password"]').value;
+
+        if (username === "admin" && password === "admin") {
+            window.location.href = "table.html"; // Redirect to table.html
+        } else {
+            alert("Invalid Credentials. Try again!");
+        }
     });
   
     // This  part Creating by ChatGPT. OpenAI, 4 March 2025

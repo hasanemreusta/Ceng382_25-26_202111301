@@ -217,3 +217,65 @@ body {
   margin-bottom: 10px;
   text-shadow: 0 0 10px rgba(127, 255, 0, 0.8);
 }
+/* This part creating by ChatGPT, prompt:"table.html sayfam için css kodlarını bana verir misin?", March 11, 2025 */
+body {
+  font-family: 'Orbitron', sans-serif;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+form {
+  margin: 20px auto;
+  padding: 10px;
+  width: 300px;
+  border: 2px solid #7FFF00;
+  background: rgba(0,0,0,0.85);
+  box-shadow: 0 0 10px rgba(0,255,0,0.5);
+  border-radius: 10px;
+}
+
+input, textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #7FFF00;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #7FFF00;
+  color: black;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  box-shadow: 0 0 10px rgba(127,255,0,1);
+}
+
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+th, td {
+  border: 1px solid #7FFF00;
+  padding: 10px;
+}
+
+th {
+  background-color: #7FFF00;
+  color: black;
+}
+
+tr:hover {
+  background-color: lightgreen;
+}
+
+.selected-row {
+  background-color: yellow !important;
+}
