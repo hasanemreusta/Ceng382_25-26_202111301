@@ -1,0 +1,67 @@
+/* wwwroot/css/styles.css */
+body {
+    background-color: #f4f7fc;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+.form-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.form-control, .btn {
+    border-radius: 5px;
+}
+
+.mb-3 label {
+    font-weight: bold;
+}
+
+.btn-group .btn {
+    margin-right: 5px;
+}
