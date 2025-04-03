@@ -19,7 +19,7 @@ C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\sc
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\scopedcss\bundle\Week5.styles.css
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\scopedcss\projectbundle\Week5.bundle.scp.css
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\compressed\t06prqfisu-b9sayid5wm.gz
-C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\compressed\5b6akg178g-xrmb31dgh7.gz
+C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\compressed\5b6akg178g-r0gg2d8u6n.gz
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\compressed\uxkeopv5ng-61n19gt1b8.gz
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\compressed\9ck3yzqzj7-xtxxf3hu2r.gz
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\compressed\f202wavem0-bqjiyaj88i.gz
