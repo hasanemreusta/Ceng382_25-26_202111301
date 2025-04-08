@@ -1,41 +1,82 @@
-/* wwwroot/css/styles.css */
+/* General Page Styling */
 body {
     background-color: #f4f7fc;
     font-family: 'Arial', sans-serif;
+    color: #333;
 }
 
+h1 {
+    color: #333;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Container Styling */
 .container {
     max-width: 1200px;
+    margin-top: 50px;
 }
 
+/* Card Styling (Add/Edit Form) */
 .card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.card h4 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+/* Table Styling */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .table th, .table td {
+    text-align: center;
     vertical-align: middle;
+    padding: 12px;
 }
 
+/* Table Header Styling */
+.table th {
+    background-color: #f8f9fa;
+    color: #343a40;
+    font-weight: bold;
+}
+
+/* Table Row Hover Effect */
+.table tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Button Styling */
 .btn {
     transition: all 0.3s ease;
+    padding: 8px 16px;
+    font-size: 1rem;
 }
 
 .btn:hover {
     transform: translateY(-3px);
 }
 
-.form-section {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.btn-primary {
+    background-color: #007bff;
+    border: none;
 }
 
-.table-section {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.btn-primary:hover {
+    background-color: #0056b3;
 }
 
 .btn-danger {
@@ -54,8 +95,38 @@ body {
     background-color: #e0a800;
 }
 
+/* Form Styling */
 .form-control, .btn {
     border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+/* Pagination Styling */
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.pagination .page-link {
+    background-color: #fff;
+    border-color: #ddd;
+    color: #007bff;
+}
+
+.pagination .page-link:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
 }
 
 .mb-3 label {
@@ -64,4 +135,20 @@ body {
 
 .btn-group .btn {
     margin-right: 5px;
+}
+
+/* Form Section Styling */
+.form-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Section Styling */
+.table-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
