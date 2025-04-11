@@ -1,154 +1,154 @@
-/* General Page Styling */
+/* Import modern Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* === GLOBAL STYLES === */
 body {
-    background-color: #f4f7fc;
-    font-family: 'Arial', sans-serif;
-    color: #333;
+    background-color: #f8f9fc;
+    font-family: 'Poppins', sans-serif;
+    color: #212529;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* === HEADINGS === */
+h1, h2, h3, .card-title {
+    font-weight: 700;
+    color: #1e1e2f;
+    margin-bottom: 1rem;
 }
 
 h1 {
-    color: #333;
     font-size: 2.5rem;
     text-align: center;
-    margin-bottom: 30px;
-    font-weight: 600;
 }
 
-/* Container Styling */
+.card-title {
+    font-size: 1.5rem;
+    border-left: 4px solid #0d6efd;
+    padding-left: 10px;
+    margin-bottom: 1.5rem;
+}
+
+/* === CONTAINER === */
 .container {
-    max-width: 1200px;
-    margin-top: 50px;
+    max-width: 1140px;
+    margin: auto;
+    padding: 2rem 1rem;
 }
 
-/* Card Styling (Add/Edit Form) */
+/* === CARD STYLES === */
 .card {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    transition: all 0.3s ease-in-out;
     background-color: #ffffff;
 }
 
-.card h4 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: #007bff;
+.card:hover {
+    transform: translateY(-4px);
 }
 
-/* Table Styling */
-.table {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.table th, .table td {
-    text-align: center;
-    vertical-align: middle;
-    padding: 12px;
-}
-
-/* Table Header Styling */
-.table th {
-    background-color: #f8f9fa;
-    color: #343a40;
-    font-weight: bold;
-}
-
-/* Table Row Hover Effect */
-.table tr:hover {
-    background-color: #f1f1f1;
-    cursor: pointer;
-}
-
-/* Button Styling */
-.btn {
-    transition: all 0.3s ease;
-    padding: 8px 16px;
+/* === FORM CONTROLS === */
+.form-control {
+    border-radius: 10px;
+    padding: 12px 16px;
     font-size: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    background-color: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* === BUTTONS === */
+.btn {
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
 }
 
 .btn:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.07);
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #0d6efd;
     border: none;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
 }
 
 .btn-warning {
     background-color: #ffc107;
+    border: none;
+    color: #212529;
 }
 
-.btn-warning:hover {
-    background-color: #e0a800;
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
 }
 
-/* Form Styling */
-.form-control, .btn {
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* === TABLE STYLES === */
+.table {
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
-.form-label {
-    font-weight: bold;
+.table thead {
+    background-color: #f1f3f5;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
-/* Pagination Styling */
+.table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* === PAGINATION === */
 .pagination {
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 2rem;
+}
+
+.pagination .page-item .page-link {
+    border-radius: 8px;
+    margin: 0 5px;
+    color: #0d6efd;
+    border-color: #dee2e6;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
 }
 
-.pagination .page-link {
-    background-color: #fff;
-    border-color: #ddd;
-    color: #007bff;
+/* === EXPORT COLUMNS === */
+th[data-export] {
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.pagination .page-link:hover {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
-.mb-3 label {
-    font-weight: bold;
-}
-
-.btn-group .btn {
-    margin-right: 5px;
-}
-
-/* Form Section Styling */
-.form-section {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Table Section Styling */
-.table-section {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+th.export-selected {
+    background-color: #0d6efd !important;
+    color: white !important;
 }
