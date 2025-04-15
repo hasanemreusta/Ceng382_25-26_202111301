@@ -97,3 +97,4 @@ C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\We
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\Week5.genruntimeconfig.cache
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\ref\Week5.dll
 C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\compressed\5b6akg178g-ujesba0kec.gz
+C:\Users\hasan\Desktop\ceng382\Ceng382_25-26_202111301\Week5\obj\Debug\net9.0\compressed\d4a2xdzo7d-05rqdgm858.gz

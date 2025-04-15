@@ -48,6 +48,26 @@ namespace Week5.Pages
 
         public void OnGet()
         {
+                //  Check login status
+        var sessionUsername = HttpContext.Session.GetString("username");
+        var sessionToken = HttpContext.Session.GetString("token");
+        var sessionId = HttpContext.Session.GetString("session_id");
+
+        var cookieUsername = Request.Cookies["username"];
+        var cookieToken = Request.Cookies["token"];
+        var cookieSessionId = Request.Cookies["session_id"];
+
+        if (string.IsNullOrEmpty(sessionUsername) ||
+            string.IsNullOrEmpty(sessionToken) ||
+            string.IsNullOrEmpty(sessionId) ||
+            cookieUsername != sessionUsername ||
+            cookieToken != sessionToken ||
+            cookieSessionId != sessionId)
+        {
+            TempData["LoginError"] = "You must be logged in to view this page.";
+            Response.Redirect("/Login");
+            return;
+        }
             if (!ClassList.Any())
             {
                 // Creating 100 sample records
@@ -180,6 +200,19 @@ namespace Week5.Pages
         
         return File(fileBytes, "application/json", fileName);
         }
+        public IActionResult OnPostLogout()
+        {
+        // Clear session
+        HttpContext.Session.Clear();
+
+        // Delete cookies
+        Response.Cookies.Delete("username");
+        Response.Cookies.Delete("token");
+        Response.Cookies.Delete("session_id");
+
+        return RedirectToPage("/Login");
+        }
 
     }
+    
 }
