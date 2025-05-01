@@ -1,39 +1,40 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Week5.Data;
 using Week5.Models;
-using Week5.Utilities; // Using the Utils class from the Helpers/Utilities folder
+using Week5.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Week5.Pages
 {
-    // Created by ChatGPT, OpenAI, April 8, 2025;
-    // using prompt: "Create a C# Razor Page with a form to add, edit, and delete class information.
-    // The class should have properties like ClassName, StudentCount, and Description. 
-    // Include validation for the properties. Implement filtering and pagination for the list of classes displayed on the page."
     public class IndexModel : PageModel
     {
-        private static List<ClassInformationModel> ClassList = new List<ClassInformationModel>();
-        private static int NextId = 1;
+        private readonly SchoolDbContext _context;
 
-        // For the input form
+        public IndexModel(SchoolDbContext context)
+        {
+            _context = context;
+        }
+
+        public IList<Class>? ClassList { get; set; }
+
         [BindProperty]
-        public ClassInformationModel NewClass { get; set; } = new ClassInformationModel();
+        public Class NewClass { get; set; } = new();
 
-        // Filtering parameter
         [BindProperty(SupportsGet = true)]
         public string? FilterClassName { get; set; }
 
-        // Pagination parameters
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
         public int PageSize { get; set; } = 10;
         public int TotalPages { get; set; }
 
-        // Table data to be displayed
-        public List<ClassInformationTable> FilteredTableData { get; set; } = new();
+        public List<Class> FilteredTableData { get; set; } = new();
 
         [BindProperty]
         public bool IsEditMode { get; set; }
@@ -41,178 +42,148 @@ namespace Week5.Pages
         [BindProperty]
         public int EditId { get; set; }
 
-        // For JSON export: Selected columns from the table header.
-        // The selected columns will be received as a comma-separated string and then split into a list.
         [BindProperty]
         public string? SelectedExportColumns { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-                //  Check login status
-        var sessionUsername = HttpContext.Session.GetString("username");
-        var sessionToken = HttpContext.Session.GetString("token");
-        var sessionId = HttpContext.Session.GetString("session_id");
+            var sessionUsername = HttpContext.Session.GetString("username");
+            var sessionToken = HttpContext.Session.GetString("token");
+            var sessionId = HttpContext.Session.GetString("session_id");
 
-        var cookieUsername = Request.Cookies["username"];
-        var cookieToken = Request.Cookies["token"];
-        var cookieSessionId = Request.Cookies["session_id"];
+            var cookieUsername = Request.Cookies["username"];
+            var cookieToken = Request.Cookies["token"];
+            var cookieSessionId = Request.Cookies["session_id"];
 
-        if (string.IsNullOrEmpty(sessionUsername) ||
-            string.IsNullOrEmpty(sessionToken) ||
-            string.IsNullOrEmpty(sessionId) ||
-            cookieUsername != sessionUsername ||
-            cookieToken != sessionToken ||
-            cookieSessionId != sessionId)
-        {
-            TempData["LoginError"] = "You must be logged in to view this page.";
-            Response.Redirect("/Login");
-            return;
-        }
-            if (!ClassList.Any())
+            if (string.IsNullOrEmpty(sessionUsername) ||
+                string.IsNullOrEmpty(sessionToken) ||
+                string.IsNullOrEmpty(sessionId) ||
+                cookieUsername != sessionUsername ||
+                cookieToken != sessionToken ||
+                cookieSessionId != sessionId)
             {
-                // Creating 100 sample records
-                for (int i = 1; i <= 100; i++)
-                {
-                    ClassList.Add(new ClassInformationModel
-                    {
-                        Id = NextId++,
-                        ClassName = $"Class {i}",
-                        StudentCount = 20 + (i % 5),
-                        Description = $"Description for class {i}"
-                    });
-                }
+                TempData["LoginError"] = "You must be logged in to view this page.";
+                return RedirectToPage("/Login");
             }
 
-            // Filtering
-            var query = ClassList.AsQueryable();
+            var query = _context.Classes.AsQueryable();
+
             if (!string.IsNullOrWhiteSpace(FilterClassName))
             {
-                query = query.Where(c => c.ClassName.Contains(FilterClassName));
+                query = query.Where(c => c.Name.Contains(FilterClassName));
             }
 
-            // Calculating total pages
-            int totalRecords = query.Count();
+            int totalRecords = await query.CountAsync();
             TotalPages = (int)Math.Ceiling(totalRecords / (double)PageSize);
 
-            // Pagination logic
-            var paginatedData = query
+            FilteredTableData = await query
                 .Skip((PageNumber - 1) * PageSize)
                 .Take(PageSize)
-                .ToList();
+                .ToListAsync();
 
-            // Converting to data for the table display
-            FilteredTableData = paginatedData
-                .Select(c => new ClassInformationTable
-                {
-                    Id = c.Id,
-                    ClassName = c.ClassName,
-                    StudentCount = c.StudentCount,
-                    Description = c.Description
-                })
-                .ToList();
+            return Page();
         }
 
-        public IActionResult OnPostAdd()
+        public async Task<IActionResult> OnPostAddAsync()
         {
             if (!ModelState.IsValid) return Page();
 
-            NewClass.Id = NextId++;
-            ClassList.Add(NewClass);
+            _context.Classes.Add(NewClass);
+            await _context.SaveChangesAsync();
+
             return RedirectToPage();
         }
 
-        public IActionResult OnPostDelete(int id)
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            var item = ClassList.FirstOrDefault(c => c.Id == id);
-            if (item != null) ClassList.Remove(item);
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostEdit(int id)
-        {
-            var item = ClassList.FirstOrDefault(c => c.Id == id);
+            var item = await _context.Classes.FindAsync(id);
             if (item != null)
             {
-                NewClass = new ClassInformationModel
+                _context.Classes.Remove(item);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostEditAsync(int id)
+        {
+            var item = await _context.Classes.FindAsync(id);
+            if (item != null)
+            {
+                NewClass = new Class
                 {
-                    ClassName = item.ClassName,
-                    StudentCount = item.StudentCount,
-                    Description = item.Description
+                    Name = item.Name,
+                    PersonCount = item.PersonCount,
+                    Description = item.Description,
+                    IsActive = item.IsActive
                 };
                 EditId = item.Id;
                 IsEditMode = true;
             }
+
+            await OnGetAsync(); // Refresh table
             return Page();
         }
 
-        public IActionResult OnPostUpdate()
+        public async Task<IActionResult> OnPostUpdateAsync()
         {
             if (!ModelState.IsValid) return Page();
 
-            var existing = ClassList.FirstOrDefault(c => c.Id == EditId);
+            var existing = await _context.Classes.FindAsync(EditId);
             if (existing != null)
             {
-                existing.ClassName = NewClass.ClassName;
-                existing.StudentCount = NewClass.StudentCount;
+                existing.Name = NewClass.Name;
+                existing.PersonCount = NewClass.PersonCount;
                 existing.Description = NewClass.Description;
+                existing.IsActive = NewClass.IsActive;
+
+                await _context.SaveChangesAsync();
             }
 
             return RedirectToPage();
         }
 
-        
-        // This method creating by ChatGPT, OpenAI, April 10, 2025;
-        // Prompt used: 
-        // "Implement a Razor Pages backend export feature that allows exporting either the full list or 
-        // a filtered list of class data to JSON format. The user should be able to select which columns 
-        // to include in the export. The exported JSON should be downloaded as a .json file with a dynamic filename 
-        // based on the current timestamp."
-        public IActionResult OnPostExport()
+        public async Task<IActionResult> OnPostExportAsync()
         {
-        // Exporting the filtered data based on the current filter applied in the table.
-        var query = ClassList.AsQueryable();
-        if (!string.IsNullOrWhiteSpace(FilterClassName))
-        {
-            query = query.Where(c => c.ClassName.Contains(FilterClassName));
-        }
-        var exportData = query.ToList();
+            var query = _context.Classes.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(FilterClassName))
+            {
+                query = query.Where(c => c.Name.Contains(FilterClassName));
+            }
 
-        string jsonResult;
-        var selectedColumnsList = string.IsNullOrWhiteSpace(SelectedExportColumns)
-            ? new List<string>()
-            : SelectedExportColumns.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                                    .Select(s => s.Trim())
-                                    .ToList();
+            var exportData = await query.ToListAsync();
 
-        if (selectedColumnsList.Any())
-        {
-            jsonResult = Utils.Instance.ExportToJsonSelected(exportData, selectedColumnsList);
-        }
-        else
-        {
-            jsonResult = Utils.Instance.ExportToJson(exportData);
+            string jsonResult;
+            var selectedColumnsList = string.IsNullOrWhiteSpace(SelectedExportColumns)
+                ? new List<string>()
+                : SelectedExportColumns.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                        .Select(s => s.Trim())
+                                        .ToList();
+
+            if (selectedColumnsList.Any())
+            {
+                jsonResult = Utils.Instance.ExportToJsonSelected(exportData, selectedColumnsList);
+            }
+            else
+            {
+                jsonResult = Utils.Instance.ExportToJson(exportData);
+            }
+
+            var fileBytes = System.Text.Encoding.UTF8.GetBytes(jsonResult);
+            var fileName = $"ExportedData_{DateTime.Now:yyyyMMdd_HHmmss}.json";
+
+            return File(fileBytes, "application/json", fileName);
         }
 
-        // Convert JSON string to byte array for file download
-        var fileBytes = System.Text.Encoding.UTF8.GetBytes(jsonResult);
-        var fileName = $"ExportedData_{DateTime.Now:yyyyMMdd_HHmmss}.json";
-
-        
-        return File(fileBytes, "application/json", fileName);
-        }
         public IActionResult OnPostLogout()
         {
-        // Clear session
-        HttpContext.Session.Clear();
+            HttpContext.Session.Clear();
+            Response.Cookies.Delete("username");
+            Response.Cookies.Delete("token");
+            Response.Cookies.Delete("session_id");
 
-        // Delete cookies
-        Response.Cookies.Delete("username");
-        Response.Cookies.Delete("token");
-        Response.Cookies.Delete("session_id");
-
-        return RedirectToPage("/Login");
+            return RedirectToPage("/Login");
         }
-
     }
-    
 }

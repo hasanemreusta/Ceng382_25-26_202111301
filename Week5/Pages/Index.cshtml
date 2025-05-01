@@ -33,11 +33,11 @@
                 <input type="hidden" asp-for="IsEditMode" />
                 <div class="mb-3">
                     <label class="form-label">Class Name</label>
-                    <input type="text" class="form-control" asp-for="NewClass.ClassName" required />
+                    <input type="text" class="form-control" asp-for="NewClass.Name" required />
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Student Count</label>
-                    <input type="number" class="form-control" asp-for="NewClass.StudentCount" required />
+                    <input type="number" class="form-control" asp-for="NewClass.PersonCount" required />
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Description</label>
@@ -57,8 +57,8 @@
                 <table class="table table-hover table-striped align-middle text-center">
                     <thead class="table-light">
                         <tr>
-                            <th data-export="ClassName">Class Name</th>
-                            <th data-export="StudentCount">Student Count</th>
+                            <th data-export="Name">Class Name</th> <!-- Update here -->
+                            <th data-export="PersonCount">Student Count</th> <!-- Update here -->
                             <th data-export="Description">Description</th>
                             <th>Actions</th>
                         </tr>
@@ -67,8 +67,8 @@
                         @foreach (var item in Model.FilteredTableData)
                         {
                             <tr>
-                                <td>@item.ClassName</td>
-                                <td>@item.StudentCount</td>
+                                <td>@item.Name</td> <!-- Update here -->
+                                <td>@item.PersonCount</td> <!-- Update here -->
                                 <td>@item.Description</td>
                                 <td>
                                     <div class="btn-group">

@@ -8,10 +8,10 @@ namespace Week5.Pages
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
 
         [BindProperty]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
         public string? ErrorMessage { get; set; }
 
@@ -50,7 +50,7 @@ namespace Week5.Pages
             // Cookie 
             var cookieOptions = new CookieOptions
             {
-                Expires = DateTimeOffset.Now.AddMinutes(1),
+                Expires = DateTimeOffset.Now.AddMinutes(30),
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict
