@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +9,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+
 
 namespace Week5.Pages
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly SchoolDbContext _context;
@@ -47,26 +51,9 @@ namespace Week5.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var sessionUsername = HttpContext.Session.GetString("username");
-            var sessionToken = HttpContext.Session.GetString("token");
-            var sessionId = HttpContext.Session.GetString("session_id");
-
-            var cookieUsername = Request.Cookies["username"];
-            var cookieToken = Request.Cookies["token"];
-            var cookieSessionId = Request.Cookies["session_id"];
-
-            if (string.IsNullOrEmpty(sessionUsername) ||
-                string.IsNullOrEmpty(sessionToken) ||
-                string.IsNullOrEmpty(sessionId) ||
-                cookieUsername != sessionUsername ||
-                cookieToken != sessionToken ||
-                cookieSessionId != sessionId)
-            {
-                TempData["LoginError"] = "You must be logged in to view this page.";
-                return RedirectToPage("/Login");
-            }
-
-            var query = _context.Classes.AsQueryable();
+            var query = _context.Classes
+                .Where(c => c.IsActive)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(FilterClassName))
             {
@@ -88,6 +75,7 @@ namespace Week5.Pages
         {
             if (!ModelState.IsValid) return Page();
 
+            NewClass.IsActive = true;
             _context.Classes.Add(NewClass);
             await _context.SaveChangesAsync();
 
@@ -99,7 +87,7 @@ namespace Week5.Pages
             var item = await _context.Classes.FindAsync(id);
             if (item != null)
             {
-                _context.Classes.Remove(item);
+                item.IsActive = false;
                 await _context.SaveChangesAsync();
             }
 
@@ -122,31 +110,36 @@ namespace Week5.Pages
                 IsEditMode = true;
             }
 
-            await OnGetAsync(); // Refresh table
+            await OnGetAsync();
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUpdateAsync()
+            public async Task<IActionResult> OnPostUpdateAsync()
+    {
+        if (!ModelState.IsValid) return Page();
+
+        var existing = await _context.Classes.FindAsync(EditId);
+        if (existing != null)
         {
-            if (!ModelState.IsValid) return Page();
+            existing.Name = NewClass.Name;
+            existing.PersonCount = NewClass.PersonCount;
+            existing.Description = NewClass.Description;
 
-            var existing = await _context.Classes.FindAsync(EditId);
-            if (existing != null)
-            {
-                existing.Name = NewClass.Name;
-                existing.PersonCount = NewClass.PersonCount;
-                existing.Description = NewClass.Description;
-                existing.IsActive = NewClass.IsActive;
+            // IsActive değerini sabit tut
+            existing.IsActive = true;
 
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage();
+            await _context.SaveChangesAsync();
         }
+
+        return RedirectToPage();
+    }
+
 
         public async Task<IActionResult> OnPostExportAsync()
         {
-            var query = _context.Classes.AsQueryable();
+            var query = _context.Classes
+                .Where(c => c.IsActive);
+
             if (!string.IsNullOrWhiteSpace(FilterClassName))
             {
                 query = query.Where(c => c.Name.Contains(FilterClassName));
@@ -178,12 +171,8 @@ namespace Week5.Pages
 
         public IActionResult OnPostLogout()
         {
-            HttpContext.Session.Clear();
-            Response.Cookies.Delete("username");
-            Response.Cookies.Delete("token");
-            Response.Cookies.Delete("session_id");
-
-            return RedirectToPage("/Login");
+            HttpContext.SignOutAsync();
+            return Redirect("/Identity/Account/Login");
         }
     }
 }
